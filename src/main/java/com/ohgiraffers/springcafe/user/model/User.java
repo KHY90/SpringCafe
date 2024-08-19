@@ -11,8 +11,85 @@ public class User {
     @Column(name = "user_id", nullable = false)
     private Integer userId;
 
+    @Column(name = "user_name", nullable = false)
+    private String userName;
 
+    @Column(name = "user_age", nullable = false)
+    private Integer userAge;
 
+    @Column(name = "user_postalCode")
+    private String postalCode; // 우편번호
 
+    @Column(name = "user_address")
+    private String address; // 주소
 
+    @Column(name = "user_detailAddress")
+    private String detailAddress; // 상세주소
+
+    private User(Integer userId, String userName, Integer userAge, String postalCode, String address, String detailAddress) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userAge = userAge;
+        this.postalCode = postalCode;
+        this.address = address;
+        this.detailAddress = detailAddress;
+    }
+
+    public User() {
+    }
+
+    public static User builder(){
+        return new User();
+    }
+
+    public User userId(Integer userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    public User userName(String userName) {
+        // 글자가 3글자이고 한글인지 확인하는 검증로직
+        if(userName.trim().length() == 3 && userName.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")){
+            this.userName = userName;
+            return this;
+        }else {
+            return null;
+        }
+    }
+
+    public User userAge(Integer userAge) {
+        if(userAge < 20){
+            return null; // 엔티티에서 검증
+        }else {
+            this.userAge = userAge;
+            return this;
+        }
+    }
+
+    public User userPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+        return this;
+    }
+
+    public User userAddress(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public User userDetailAddress(String detailAddress) {
+        this.detailAddress = detailAddress;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", userAge=" + userAge +
+                ", postalCode='" + postalCode + '\'' +
+                ", address='" + address + '\'' +
+                ", detailAddress='" + detailAddress + '\'' +
+                '}';
+    }
 }
