@@ -32,7 +32,6 @@ public class User {
         this.postalCode = builder.postalCode;
         this.address = builder.address;
         this.detailAddress = builder.detailAddress;
-    }
 
     public User() {
     }
@@ -85,8 +84,6 @@ public class User {
         }
     }
 
-
-
     public Integer getUserId() {
         return userId;
     }
@@ -109,7 +106,7 @@ public class User {
 
     public String getDetailAddress() {
         return detailAddress;
-    }
+
 
     @Override
     public String toString() {
