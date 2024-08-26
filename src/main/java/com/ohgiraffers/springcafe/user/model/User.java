@@ -26,60 +26,87 @@ public class User {
     @Column(name = "user_detailAddress")
     private String detailAddress; // 상세주소
 
-    private User(Integer userId, String userName, Integer userAge, String postalCode, String address, String detailAddress) {
-        this.userId = userId;
-        this.userName = userName;
-        this.userAge = userAge;
-        this.postalCode = postalCode;
-        this.address = address;
-        this.detailAddress = detailAddress;
-    }
+    private User(Builder builder) {
+        this.userName = builder.userName;
+        this.userAge = builder.userAge;
+        this.postalCode = builder.postalCode;
+        this.address = builder.address;
+        this.detailAddress = builder.detailAddress;
 
     public User() {
     }
 
-    public static User builder(){
-        return new User();
-    }
+    public static class Builder {
+        private String userName;
+        private Integer userAge;
+        private String postalCode;
+        private String address;
+        private String detailAddress;
 
-    public User userId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
+        public User builder() {
+            return new User(this);
 
-    public User userName(String userName) {
-        // 글자가 3글자이고 한글인지 확인하는 검증로직
-        if(userName.trim().length() == 3 && userName.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")){
-            this.userName = userName;
+
+        }
+
+        public Builder setUserName(String userName) {
+            // 글자가 3글자이고 한글인지 확인하는 검증로직
+            if (userName.trim().length() == 3 && userName.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")) {
+                this.userName = userName;
+                return this;
+            } else {
+                return null;
+            }
+        }
+
+        public Builder setUserAge(Integer userAge) {
+            if (userAge < 20) {
+                return null; // 엔티티에서 검증
+            } else {
+                this.userAge = userAge;
+                return this;
+            }
+        }
+
+        public Builder setUserPostalCode(String postalCode) {
+            this.postalCode = postalCode;
             return this;
-        }else {
-            return null;
+        }
+
+        public Builder setUserAddress(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public Builder setUserDetailAddress(String detailAddress) {
+            this.detailAddress = detailAddress;
+            return this;
         }
     }
 
-    public User userAge(Integer userAge) {
-        if(userAge < 20){
-            return null; // 엔티티에서 검증
-        }else {
-            this.userAge = userAge;
-            return this;
-        }
+    public Integer getUserId() {
+        return userId;
     }
 
-    public User userPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-        return this;
+    public String getUserName() {
+        return userName;
     }
 
-    public User userAddress(String address) {
-        this.address = address;
-        return this;
+    public Integer getUserAge() {
+        return userAge;
     }
 
-    public User userDetailAddress(String detailAddress) {
-        this.detailAddress = detailAddress;
-        return this;
+    public String getPostalCode() {
+        return postalCode;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getDetailAddress() {
+        return detailAddress;
+
 
     @Override
     public String toString() {
